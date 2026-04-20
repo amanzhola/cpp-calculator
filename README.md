@@ -1,215 +1,215 @@
-# 🧮 C++ Calculator (Qt)
-
+# 🧮 C++ Calculator  
 **Финальная версия проекта третьего спринта**
 
 ---
 
 ## 📌 Описание
 
-Многофункциональный калькулятор на **C++ + Qt**, поддерживающий различные числовые типы через шаблоны и реализующий архитектуру **MVC (Controller + View)**.
+Многофункциональный калькулятор на **C++ и Qt** с поддержкой нескольких числовых типов, шаблонной бизнес-логикой и разделением интерфейса и вычислений через контроллер.
 
 Проект демонстрирует:
 
-* шаблонный программируемый калькулятор
-* поддержку разных типов чисел
-* работу с пользовательским интерфейсом Qt
-* обработку ошибок и edge-case сценариев
-* разделение логики и UI
+- шаблоны C++;
+- архитектуру Controller + View;
+- работу с разными числовыми типами;
+- кастомный тип `Rational`;
+- обработку ошибок;
+- форматирование ввода и вывода;
+- UI на Qt Widgets. 
 
 ---
 
-## 🧱 Архитектура (сетка)
+## 🧱 Архитектура
 
-| Компонент          | Описание                                   |
-| ------------------ | ------------------------------------------ |
-| 🧠 `Calculator<T>` | Бизнес-логика вычислений (шаблонный класс) |
-| 🎮 `Controller<T>` | Связывает UI и калькулятор                 |
-| 🖼️ `MainWindow`   | UI (Qt)                                    |
-| 🔢 `Rational`      | Кастомный тип дробей                       |
-| ⚙️ `pow.h`         | Возведение в степень                       |
-| 📊 `enums.h`       | Типы операций и контролов                  |
+<table width="100%">
+  <tr>
+    <td width="20%" valign="top"><b>Calculator&lt;T&gt;</b><br>Шаблонная бизнес-логика вычислений</td>
+    <td width="20%" valign="top"><b>Controller&lt;T&gt;</b><br>Связь между UI и калькулятором</td>
+    <td width="20%" valign="top"><b>MainWindow</b><br>Qt-интерфейс и обработка сигналов</td>
+    <td width="20%" valign="top"><b>Rational</b><br>Кастомный тип рациональных чисел</td>
+    <td width="20%" valign="top"><b>pow.h / enums.h</b><br>Степень, операции и управляющие клавиши</td>
+  </tr>
+</table>
 
 ---
 
-## ⚙️ Поддерживаемые типы
+## 🔢 Поддерживаемые числовые типы
 
-| Тип               | Особенности                       |
-| ----------------- | --------------------------------- |
-| `double`          | Полная поддержка (дроби, степень) |
-| `float`           | Аналогично double                 |
-| `int` / `int64_t` | Без дробей                        |
-| `uint8_t`         | Ограниченный диапазон             |
-| `size_t`          | Только положительные              |
-| `Rational`        | Рациональные числа (дроби)        |
-
-👉 Переключение типов через UI (ComboBox)
+<table width="100%">
+  <tr>
+    <td width="14.28%" valign="top"><b>double</b><br>Дробные числа, точка, степень</td>
+    <td width="14.28%" valign="top"><b>float</b><br>Поведение как у double</td>
+    <td width="14.28%" valign="top"><b>uint8_t</b><br>Малый целочисленный диапазон</td>
+    <td width="14.28%" valign="top"><b>int</b><br>Целые числа</td>
+    <td width="14.28%" valign="top"><b>int64_t</b><br>Большие целые числа</td>
+    <td width="14.28%" valign="top"><b>size_t</b><br>Только неотрицательные значения</td>
+    <td width="14.28%" valign="top"><b>Rational</b><br>Дроби вида numerator / denominator</td>
+  </tr>
+</table>
 
 ---
 
 ## ➕ Поддерживаемые операции
 
-| Операция    | Поддержка           |
-| ----------- | ------------------- |
-| ➕ Сложение  | ✔                   |
-| ➖ Вычитание | ✔                   |
-| ✖ Умножение | ✔                   |
-| ➗ Деление   | ✔ (с проверками)    |
-| ^ Степень   | ✔ (зависит от типа) |
+<table width="100%">
+  <tr>
+    <td width="20%" valign="top"><b>Сложение</b><br><code>Add</code></td>
+    <td width="20%" valign="top"><b>Вычитание</b><br><code>Sub</code></td>
+    <td width="20%" valign="top"><b>Умножение</b><br><code>Mul</code></td>
+    <td width="20%" valign="top"><b>Деление</b><br><code>Div</code></td>
+    <td width="20%" valign="top"><b>Степень</b><br><code>Pow</code></td>
+  </tr>
+</table>
 
 ---
 
 ## ⚠️ Обработка ошибок
 
-Калькулятор возвращает ошибки через:
-
-```cpp
-std::optional<std::string>
-```
-
-Примеры:
-
-* `Integer division by zero`
-* `Integer negative power`
-* `Zero power to zero`
-* `Fractional power is not supported`
-* `No saved value`
-* `Unsupported number type`
+<table width="100%">
+  <tr>
+    <td width="20%" valign="top"><b>Integer division by zero</b><br>Деление целого типа на ноль</td>
+    <td width="20%" valign="top"><b>Integer negative power</b><br>Отрицательная степень для целых</td>
+    <td width="20%" valign="top"><b>Zero power to zero</b><br>Неопределённость 0^0</td>
+    <td width="20%" valign="top"><b>Fractional power is not supported</b><br>Дробная степень для Rational</td>
+    <td width="20%" valign="top"><b>No saved value</b><br>Попытка загрузки пустой памяти</td>
+  </tr>
+</table>
 
 ---
 
-## 🧠 Особенности реализации
+## 🧠 Ключевые особенности
 
-### 🔹 Шаблонный калькулятор
-
-Один класс работает для всех типов:
-
-```cpp
-template<typename Number>
-class Calculator
-```
-
----
-
-### 🔹 Специализация поведения через `if constexpr`
-
-Разное поведение для типов:
-
-```cpp
-if constexpr (std::is_floating_point_v<Number>)
-```
+<table width="100%">
+  <tr>
+    <td width="25%" valign="top"><b>Шаблонный калькулятор</b><br>Один класс работает для разных типов через <code>template&lt;typename Number&gt;</code></td>
+    <td width="25%" valign="top"><b>if constexpr</b><br>Разное поведение для float, int и Rational на этапе компиляции</td>
+    <td width="25%" valign="top"><b>Controller</b><br>Обрабатывает кнопки, операции, память и синхронизацию с интерфейсом :contentReference[oaicite:1]{index=1}</td>
+    <td width="25%" valign="top"><b>Форматирование UI</b><br>Приведение формулы и чисел к аккуратному виду в интерфейсе :contentReference[oaicite:2]{index=2}</td>
+  </tr>
+</table>
 
 ---
 
-### 🔹 Контроллер (MVC)
+## 💾 Память калькулятора
 
-Контроллер:
-
-* принимает события UI
-* вызывает методы калькулятора
-* обновляет интерфейс 
-
----
-
-### 🔹 Работа с вводом
-
-* ввод числа как строки
-* преобразование через `stringstream`
-* поддержка:
-
-  * `.` для float/double
-  * `/` для Rational
+<table width="100%">
+  <tr>
+    <td width="33.33%" valign="top"><b>MS</b><br>Сохранить текущее значение</td>
+    <td width="33.33%" valign="top"><b>MR</b><br>Загрузить сохранённое значение</td>
+    <td width="33.33%" valign="top"><b>MC</b><br>Очистить память</td>
+  </tr>
+</table>
 
 ---
 
-### 🔹 Memory (как в реальном калькуляторе)
+## 🎛️ Дополнительные элементы управления
 
-| Кнопка | Действие  |
-| ------ | --------- |
-| MS     | сохранить |
-| MR     | загрузить |
-| MC     | очистить  |
-
----
-
-### 🔹 UI (Qt)
-
-* кнопки цифр и операций
-* форматирование чисел
-* подсветка ошибок (красный текст)
-* отображение формулы 
+<table width="100%">
+  <tr>
+    <td width="20%" valign="top"><b>±</b><br>Смена знака</td>
+    <td width="20%" valign="top"><b>⌫</b><br>Удаление последнего символа</td>
+    <td width="20%" valign="top"><b>Extra key</b><br><code>.</code> для float/double</td>
+    <td width="20%" valign="top"><b>Extra key</b><br><code>/</code> для Rational</td>
+    <td width="20%" valign="top"><b>Controller switch</b><br>Выбор типа через ComboBox</td>
+  </tr>
+</table>
 
 ---
 
-## 🧩 Дополнительные функции
+## 🖼️ Интерфейс
 
-* ± смена знака
-* ⌫ backspace
-* форматирование:
+Qt UI содержит:
 
-  * scientific notation
-  * удаление лишних нулей
-* extra key:
-
-  * `.` или `/` в зависимости от типа
+- поле результата;
+- поле формулы;
+- индикатор памяти;
+- цифровые кнопки;
+- кнопки операций;
+- кнопки памяти;
+- кнопку backspace;
+- переключатель типа числа;
+- дополнительную кнопку для точки или дробной черты. 
 
 ---
 
 ## 📂 Структура проекта
 
-```bash
-cpp-calculator/
-│
-├── main.cpp
-├── mainwindow.cpp / .h
-├── mainwindow.ui
-│
-├── calculator.h
-├── controller.h
-├── rational.h
-├── pow.h
-├── enums.h
-│
-└── .pro
-```
+<table width="100%">
+  <tr>
+    <td width="10%" valign="top"><b>main.cpp</b></td>
+    <td width="20%" valign="top">Создание окна и подключение контроллеров разных типов</td>
+    <td width="10%" valign="top"><b>calculator.h</b></td>
+    <td width="20%" valign="top">Шаблонная логика вычислений</td>
+    <td width="10%" valign="top"><b>controller.h</b></td>
+    <td width="30%" valign="top">Связь UI и калькулятора, обработка операций и памяти</td>
+  </tr>
+  <tr>
+    <td width="10%" valign="top"><b>mainwindow.h/.cpp</b></td>
+    <td width="20%" valign="top">Интерфейс и работа с сигналами Qt</td>
+    <td width="10%" valign="top"><b>mainwindow.ui</b></td>
+    <td width="20%" valign="top">Разметка окна калькулятора</td>
+    <td width="10%" valign="top"><b>rational.h</b></td>
+    <td width="30%" valign="top">Рациональные числа и арифметика над ними</td>
+  </tr>
+  <tr>
+    <td width="10%" valign="top"><b>pow.h</b></td>
+    <td width="20%" valign="top">Возведение в степень для целых и Rational</td>
+    <td width="10%" valign="top"><b>enums.h</b></td>
+    <td width="20%" valign="top">Операции, контролы, типы контроллеров</td>
+    <td width="10%" valign="top"><b>.pro</b></td>
+    <td width="30%" valign="top">Qt project file и состав сборки</td>
+  </tr>
+</table>
 
 ---
 
-## ▶️ Запуск
+## ▶️ Сборка и запуск
 
 ```bash
 qmake
 make
-./app
+````
+
+На Windows вместо `make` может использоваться:
+
+```bash
+nmake
 ```
 
-или через Qt Creator
+Также проект можно открыть напрямую через **Qt Creator**. 
 
 ---
 
 ## 🎯 Чему учит проект
 
-* шаблоны C++
-* `if constexpr`
-* работа с типами
-* MVC архитектура
-* Qt UI
-* обработка ошибок
-* кастомные числовые типы
+<table width="100%">
+  <tr>
+    <td width="20%" valign="top"><b>Templates</b><br>Шаблонные классы и универсальная логика</td>
+    <td width="20%" valign="top"><b>Type traits</b><br><code>std::is_integral_v</code>, <code>std::is_same_v</code></td>
+    <td width="20%" valign="top"><b>Qt Widgets</b><br>GUI, сигналы, слоты, UI-файл</td>
+    <td width="20%" valign="top"><b>MVC / Controller pattern</b><br>Разделение интерфейса и вычислений</td>
+    <td width="20%" valign="top"><b>Error handling</b><br>Обработка edge-case сценариев</td>
+  </tr>
+</table>
 
 ---
 
 ## 🚀 Возможные улучшения
 
-* история операций
-* сохранение состояния
-* поддержка complex чисел
-* unit-тесты
-* MVVM вместо MVC
-* темная тема
+<table width="100%">
+  <tr>
+    <td width="16.66%" valign="top">История операций</td>
+    <td width="16.66%" valign="top">Сохранение состояния</td>
+    <td width="16.66%" valign="top">Unit-тесты</td>
+    <td width="16.66%" valign="top">Complex numbers</td>
+    <td width="16.66%" valign="top">Темы оформления</td>
+    <td width="16.66%" valign="top">MVVM-архитектура</td>
+  </tr>
+</table>
 
 ---
 
 ## 👨‍💻 Автор
 Amanzhol
 
-C++ / Qt / Templates / System design
+Учебный проект по **C++ / Qt / Templates / GUI architecture**
